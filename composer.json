@@ -1,0 +1,17 @@
+﻿{
+    "name": "Projeto-DW2",
+    "description": "Projeto desenvolvido para a disciplina Desenvolvimento Web 2 da minha graduacao no IFSP",
+    "authors": [
+        {
+            "name": "Philipe Pompeu",
+            "email": "philipepompeu2@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.8",
+		"jquery/jquery":">=1.11.2",
+		"DataTables/DataTables":">=1.*",
+		"twbs/bootstrap":">=1.*",
+		"twigphp/Twig":"1.*"		
+    }
+}
