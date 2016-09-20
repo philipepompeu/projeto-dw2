@@ -1,0 +1,29 @@
+{% extends "listagem.html" %}
+{% block subtitulo %}{{ "Lista de Clientes" }}{% endblock %}
+{% block breadcrumb %}				
+	<li><a href="#">Clientes</a></li>
+	<li class="active">Listar</li>
+{% endblock %}
+
+{% block tituloTabela %}{{"Clientes"}}{% endblock %}
+
+{% block listagem %}
+	{% if umaLista|length > 0 %}			
+		{% for umObjeto in umaLista %}
+			<tr>
+				<td>{{umObjeto.id}}</td>
+				<td>{{umObjeto.nome}}</td>
+				<td>{{umObjeto.celular}}</td>
+				<td>{{umObjeto.email}}</td>
+				<td>
+					<a class="btn btn-default" onclick="detalhe(name);"  href="#" name="{{umObjeto.id}}" role="button">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true"  data-toggle="modal" data-target="#myModal"></span>
+					</a>
+					<a class="btn btn-default" href="clientes_excluir.php?id={{umObjeto.id}}" role="button">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					</a>
+				</td>		
+			</tr>
+		{% endfor %}			
+	{% endif %}
+{% endblock %}	

@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>	
+	<head>		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		{% set titulo = 'Academia' %}
+		<title>{{ titulo }}</title>		
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	</head>
+	<body role="document">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">				
+					<a class="navbar-brand" href="index.php">Academia</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">						
+						{% if menuGeral|length > 0 %}			
+							{% for umMenu in menuGeral %}
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+									{{umMenu.descricao}}
+									<span class="caret"></span></a>
+									{% if umMenu.listaMenuItem|length > 0 %}
+										<ul class="dropdown-menu" role="menu">
+											{% for umItem in umMenu.listaMenuItem %}
+												<li><a href="{{umItem.pagina}}">{{umItem.descricao}}</a></li>
+											{% endfor %}
+										</ul>
+									{% endif %}	
+								</li>								
+							{% endfor %}			
+						{% endif %}
+					</ul>				
+				</div>
+			</div>
+		</nav>
+		<div class="container">
+		<div class="page-header">
+			<h1>{% block subtitulo %}{{ titulo }}{% endblock %}</h1>
+		</div>			
+			<ol class="breadcrumb">			
+				<li><a href="index.php">{{ titulo }}</a></li>
+				{% block breadcrumb %}				
+				{% endblock %}
+			</ol>		
+			{% block conteudo %}
+			{% endblock %}			
+		</div>		
+	</body>	
+	<script src="bootstrap/js/jquery-1.11.2.min.js">	</script>
+    <script src="bootstrap/js/bootstrap.min.js">		</script>	
+	<script src="bootstrap/js/maskedinput.min.js">		</script>
+	<script src="bootstrap/js/happy.js">		</script>
+	<script src="bootstrap/js/jquery.dataTables.min.js"></script>
+	<script src="bootstrap/js/dataTables.bootstrap.js">	</script>
+	<script type="text/javascript">	
+		$.extend( $.fn.dataTable.defaults, {
+			"language": {
+				"lengthMenu": "Mostrar _MENU_ registros por página",
+				"zeroRecords": "Não há dados a serem exibidos.",
+				"info": "Exibindo página _PAGE_ de _PAGES_",
+				"infoEmpty": "Não há dados.",
+				"infoFiltered": "(filtro de um total de _MAX_ registros)",
+				"search":"Buscar"
+				}
+		} );		
+	</script>
+	{% block referenciasAdicionais %}
+	{% endblock %}	
+</html>

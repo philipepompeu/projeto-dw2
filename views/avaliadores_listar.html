@@ -1,0 +1,24 @@
+{% extends "listagem.html" %}
+{% block subtitulo %}{{ "Lista de Avaliadores" }}{% endblock %}
+{% block breadcrumb %}				
+	<li><a href="#">Avaliadores</a></li>
+	<li class="active">Listar</li>
+{% endblock %}
+
+{% block tituloTabela %}{{"Avaliadores"}}{% endblock %}
+
+{% block listagem %}
+	{% if umaListaDeAvaliadores|length > 0 %}			
+		{% for umAvaliador in umaListaDeAvaliadores %}
+			<tr>
+				<td>{{umAvaliador.codigo}}</td>
+				<td>{{umAvaliador.nome}}</td>
+				<td>{{umAvaliador.endereco}}</td>
+				<td>{{umAvaliador.telefone}}</td>
+				<td>{{umAvaliador.email}}</td>
+				<td><a class="btn btn-default" href="avaliadores_view.php?codigo={{umAvaliador.codigo}}" role="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>									
+			</tr>
+		{% endfor %}			
+	{% endif %}
+{% endblock %}
+

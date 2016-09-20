@@ -1,0 +1,30 @@
+{% extends "principal.html" %}
+{% block conteudo %}
+	{{ parent() }}
+	<div class="panel panel-default">
+		<div class="panel-heading">{% block tituloTabela %}{{titulo}}{% endblock %}</div>
+		<br>
+		<table class="table table-striped table-bordered table-hover table-condensed" id="defaultTable">			
+			<thead>
+				{% if header|length > 0 %}			
+					{% for umTitulo in header %}
+						<td>{{umTitulo}} {#<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>#}</td>					
+					{% endfor %}			
+				{% endif %}
+			</thead>
+			<tbody>
+				{% block listagem %}
+				{% endblock %}
+			</tbody>			
+		</table>
+	</div>
+{% endblock %}
+
+{% block referenciasAdicionais %}
+<script type="text/javascript">	
+	$(document).ready(function() 
+	{
+		$('#defaultTable').DataTable();
+	} );
+</script>
+{% endblock %}	

@@ -1,0 +1,21 @@
+{% extends "listagem.html" %}
+{% block subtitulo %}{{ "Gerenciamento de Menu" }}{% endblock %}
+{% block breadcrumb %}				
+	<li><a href="#">Menus</a></li>
+	<li class="active">Listar</li>
+{% endblock %}
+
+{% block tituloTabela %}{{"Gerenciamento de Menu"}}{% endblock %}
+
+{% block listagem %}
+	{% if umaListaDeMenus|length > 0 %}			
+		{% for umMenu in umaListaDeMenus %}
+			<tr>
+				<td>{{umMenu.codigo}}</td>
+				<td>{{umMenu.descricao}}</td>				
+				<td><a class="btn btn-default" href="menus_view.php?codigo={{umMenu.codigo}}" role="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>									
+			</tr>
+		{% endfor %}			
+	{% endif %}
+{% endblock %}
+		

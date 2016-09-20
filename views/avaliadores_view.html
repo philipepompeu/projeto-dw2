@@ -1,0 +1,61 @@
+{% extends "cadastro.html" %}
+{% block subtitulo %}{{ "Manutenção de Avaliadores" }}{% endblock %}
+
+{% from 'cadastro.html' import MakeTextInput as MakeTextInput %}
+
+{% block formulario %}	
+	
+	{% if isEditing %}		
+		{{ MakeTextInput("codigo",true,objeto.codigo,'Código')}}
+	{% endif %}	
+	
+	{{ MakeTextInput("nome"		,false,objeto.nome		,'Nome')}}	
+	{{ MakeTextInput("endereco"	,false,objeto.endereco	,'Endereço')}}	
+	{{ MakeTextInput("email"	,false,objeto.email		,'E-Mail')}}	
+	{{ MakeTextInput("telefone"	,false,objeto.telefone	,'Telefone')}}			
+	
+	
+	
+{% endblock %}
+
+{% block breadcrumb %}				
+	<li><a href="avaliadores_listar.php">Avaliadores</a></li>
+	<li class="active">{{viewName}}</li>
+{% endblock %}
+
+	
+{% block referenciasAdicionais %}
+<script type="text/javascript">	
+	jQuery(function($){		   
+	   $("#telefone").mask("(99)9999-9999");	   
+	});	
+	
+	$('#mainForm').isHappy({
+		fields: {	  
+		  '#nome': {
+			required: true,
+			message: 'O preenchimento do nome é obrigatório.'
+		  },
+		  '#endereco': {
+			required: true,
+			message: 'O preenchimento do endereço é obrigatório.'
+		  },
+		  '#email': {
+			required: 'sometimes',
+			message: 'O preenchimento do e-mail é obrigatório.',
+			test:validaEmail
+		  }
+		},
+		classes : {	  		  
+			field: 'has-warning',
+			message:'help-block'		  
+		}
+	});
+	
+	function validaEmail(email)
+	{				
+		var resultado = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;		
+		return resultado.test(email);
+	}		
+</script>
+{% endblock %}	

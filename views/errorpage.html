@@ -1,0 +1,11 @@
+{% extends "principal.html" %}
+{% block subtitulo %}{{ "Ops! Detectamos um erro!" }}{% endblock %}
+{% block conteudo %}		
+	<div class="jumbotron">
+		<h3>Ops!</h3>
+		<p>Desculpe pelo incoveniente, detectamos um erro inesperado, nossa equipe já está trabalhando para resolver o problema!</p>
+		<div class="alert alert-danger" role="alert">
+			<strong>Mensagem : </strong>{{mensagemDeErro}}
+		</div>	
+	</div>	
+{% endblock %}

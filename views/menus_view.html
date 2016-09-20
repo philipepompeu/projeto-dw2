@@ -1,0 +1,90 @@
+{% extends "cadastro.html" %}
+{% from 'cadastro.html' import MakeTextInput as MakeTextInput %}
+{% block subtitulo %}{{ "Manutenção de Menus" }}{% endblock %}
+{% block breadcrumb %}				
+	<li><a href="menus_listar.php">Menus</a></li>
+	<li class="active">{{viewName}}</li>
+{% endblock %}
+
+{% block formulario %}
+	{% if isEditing %}		
+		{{ MakeTextInput("codigo",true,objeto.codigo,'Código')}}
+	{% endif %}	
+	
+	{{ MakeTextInput("descricao"		,false,objeto.descricao		,'Descrição')}}					
+	<p>		
+		<button id="addRow" class="btn btn-success" type="button">Adicionar</button>
+		<button id="delRow" class="btn btn-danger" type="button">Remover</button>
+	</p>
+	<table class="table table-striped table-bordered table-hover table-condensed" id="detailsTable" name="Items">			
+		<thead>		
+			<td>Descrição</td>			
+			<td>Página</td>
+		</thead>
+		<tbody>
+		{% if listaMenuItem|length > 0 %}			
+			{% for umMenuItem in listaMenuItem %}
+				<tr>
+					<td><input type="text" class="form-control" name="descricao{{umMenuItem.codigo}}" value="{{umMenuItem.descricao}}"/></td>
+					<td><input type="text" class="form-control" name="pagina{{umMenuItem.codigo}}" value="{{umMenuItem.pagina}}"/></td>	
+				</tr>
+			{% endfor %}			
+		{%else%}
+			<tr>
+				<td><input type="text" class="form-control" name="descricao1"/></td>
+				<td><input type="text" class="form-control" name="pagina1"/></td>	
+			</tr>
+		{% endif %}
+		</tbody>			
+	</table>
+{% endblock %}
+
+{% block referenciasAdicionais %}
+<script type="text/javascript">	
+	$(document).ready(function() {
+		var t = $('#detailsTable').DataTable(
+		{
+			"search":   false,
+			"paging":   false,
+			"ordering": false,
+			"searching": false,
+			"info":     false		
+		}	
+		);
+		var counter = 1;
+	 
+		$('#addRow').on( 'click', function () {
+			t.row.add( [
+				'<td><input type=\"text\" class=\"form-control\" name=\"descricao'+counter+'\"/></td>',
+				'<td><input type=\"text\" class=\"form-control\" name=\"pagina'+counter+'\"/></td>'
+			] ).draw();
+	 
+			counter++;
+		} ); 	
+		
+		$('#detailsTable tbody').on( 'click', 'tr', function () {
+			if ( $(this).hasClass('danger') ) {
+				$(this).removeClass('danger');
+			}
+			else {
+				t.$('tr.danger').removeClass('danger');
+				$(this).addClass('danger');
+			}
+		} );
+		
+		$('#delRow').click( function () {
+			t.row('.danger').remove().draw( false );
+		} );
+ 
+	} );
+	
+	$('#mainForm').isHappy({
+		fields: {	  
+		  '#descricao': {
+			required: true,
+			message: 'O preenchimento da descrição é obrigatório.'
+		  }
+		}
+	});
+</script>
+{% endblock %}	

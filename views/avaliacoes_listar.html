@@ -1,0 +1,23 @@
+{% extends "listagem.html" %}
+{% block subtitulo %}{{ "Lista de Avaliações" }}{% endblock %}
+{% block breadcrumb %}				
+	<li><a href="#">Avaliações</a></li>
+	<li class="active">Listar</li>
+{% endblock %}
+
+{% block tituloTabela %}{{"Avaliações"}}{% endblock %}
+
+{% block listagem %}
+	{% if umaListaDeAvaliacoes|length > 0 %}			
+		{% for umaAvaliacao in umaListaDeAvaliacoes %}
+			<tr>
+				<td>{{umaAvaliacao.codigo}}</td>
+				<td>{{umaAvaliacao.nomeCliente}}</td>
+				<td>{{umaAvaliacao.nomeAvaliador}}</td>
+				<td>{{umaAvaliacao.data}}</td>				
+				<td><a class="btn btn-default" href="avaliacoes_view.php?codigo={{umaAvaliacao.codigo}}" role="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></td>									
+			</tr>
+		{% endfor %}			
+	{% endif %}
+{% endblock %}
+		

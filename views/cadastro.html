@@ -1,0 +1,78 @@
+{% extends "principal.html" %}
+{% block conteudo %}	
+	{{ parent() }}	
+	<form action="{{formAction|default('index.php')}}" role="form" method="POST" name="form" id="mainForm">
+		{% block formulario %}
+	
+		{% endblock %}		
+		<p>			
+			{% if showReturn %}
+				<a class="btn btn-default btn-lg" href="{{formReturn|default('index.php')}}" role="button" id="returnButton">Voltar</a>					
+			{% endif %}			
+			
+			<input type="submit" value="Salvar" class="btn btn-primary btn-lg" name="Salvar"  id="saveButton">
+			
+			{% if isEditing %}
+				<input type="submit" value="Excluir" class="btn btn-danger btn-lg" name="Excluir"  id="removeButton">
+			{% endif %}			
+		</p>
+	</form>	
+{% endblock %}
+
+{% macro MakeTextInput(name,readOnly,value,label,type) %}
+	<div class="form-group" id="{{name}}_wrapper">
+		<label for="{{ name }}">{{ label }}:</label>
+		{% if readOnly %}
+			<input type="{{type|default('text')}}" name="{{ name }}" value="{{ value|default('') }}" class="form-control" id="{{ name }}" readonly/>
+		{% else %}
+			<input type="{{type|default('text')}}" name="{{ name }}" value="{{ value|default('') }}" class="form-control" id="{{ name }}"/>
+		{% endif %}
+	</div>
+	<p id="{{name}}_info"></p>
+{% endmacro %}
+
+{% macro MakeSelectInput(name,readOnly,valores,valorArg,label) %}
+	<div class="form-group" id="{{name}}_wrapper">
+		<label for="{{ name }}">{{ label }}:</label>
+		{% if readOnly %}
+			<select name="{{ name }}" class="form-control" id="{{ name }}" disabled>
+		{% else %}
+			<select name="{{ name }}" class="form-control" id="{{ name }}">
+		{% endif %}
+		
+			{% for chave, valor in valores %}
+				{% if chave == valorArg %}
+					<option value="{{chave}}" selected>{{valor}}</option>						
+				{% else %}
+					<option value="{{chave}}">{{valor}}</option>						
+				{% endif %}
+			
+			{% endfor %}
+		</select>		
+	</div>	
+{% endmacro %}
+
+{% macro MakeRadioInput(name,enableEditing,valores,valorArg,label) %}
+	<div class="form-group" id="{{name}}_wrapper">
+		<label for="{{ name }}">{{ label }}:</label>
+		
+		{% if enableEditing %}
+			<div class="radio">						
+				{% for chave, valor in valores %}					
+					{% if chave == valorArg %}						
+						<label><input type="radio" name="{{name}}" value="{{chave}}" checked id="{{ name }}">{{valor}}</label>												
+					{% else %}
+						<label><input type="radio" name="{{name}}" value="{{chave}}" id="{{ name }}">{{valor}}</label>
+					{% endif %}			
+				{% endfor %}				
+			</div>
+		{% else %}
+			{% for chave, valor in valores %}					
+				{% if chave == valorArg %}						
+					<span class="label  label-default" id="{{ name }}">{{valor}}</span>					
+				{% endif %}			
+			{% endfor %}
+			
+		{% endif %}				
+	</div>	
+{% endmacro %}

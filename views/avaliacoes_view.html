@@ -1,0 +1,162 @@
+{% extends "cadastro.html" %}
+{% block subtitulo %}{{ "Manutenção de Avaliações" }}{% endblock %}
+
+{% block breadcrumb %}				
+	<li><a href="avaliadores_listar.php">Avaliações</a></li>
+	<li class="active">{{viewName}}</li>
+{% endblock %}
+
+{% from 'cadastro.html' import MakeTextInput as MakeTextInput %}
+{% from 'cadastro.html' import MakeSelectInput as MakeSelectInput %}
+{% from 'cadastro.html' import MakeRadioInput as MakeRadioInput %}
+
+{% block formulario %}
+	{% 	set idadesVetor = {'1':'9-17','2': '18-25','3': '26-35',	'4': '36-45',	'5': '45-59',	'6': 'Acima de 60'} %}
+	{% 	set generosVetor = {'1':'Masculino','2': 'Feminino'} %}
+
+	<div class="form-group">
+		<label for="codCliente">Cliente:</label>					
+		{% if isEditing %}
+			<select name="codCliente" class="form-control" id="codCliente" disabled>
+		{% else %}
+			<select name="codCliente" class="form-control" id="codCliente">
+		{% endif %}	
+		
+				{% if clientes|length > 0 %}			
+					{% for umCliente in clientes %}
+						<p>umCliente.codigo</p>
+						<p>objeto.codigoCliente</p>
+						{% if umCliente.codigo == objeto.codigoCliente %}
+							<option value="{{umCliente.id}}" selected>{{umCliente.nome}}</option>													
+						{% else %}
+							<option value="{{umCliente.id}}">{{umCliente.nome}}</option>													
+						{% endif %}	
+						
+
+					{% endfor %}			
+				{% endif %}			
+			</select>
+	</div>
+	<div class="form-group">				
+		<label for="codAvaliador">Avaliador:</label>					
+		
+		{% if isEditing %}
+			<select name="codAvaliador" class="form-control" id="codAvaliador" disabled>
+		{% else %}
+			<select name="codAvaliador" class="form-control" id="codAvaliador">
+		{% endif %}	
+		
+		
+			{% if avaliadores|length > 0 %}			
+				{% for umAvaliador in avaliadores %}
+					{% if umAvaliador.codigo == objeto.codigoAvaliador %}
+						<option value="{{umAvaliador.codigo}}" selected>{{umAvaliador.nome}}</option>													
+					{% else %}
+						<option value="{{umAvaliador.codigo}}">{{umAvaliador.nome}}</option>													
+					{% endif %}	
+					
+				{% endfor %}			
+			{% endif %}
+		</select>
+	</div>		
+	{% if isEditing %}
+		{{ MakeTextInput("data"	,true,objeto.data,'Data da Avaliação','date')}}	
+	{% else %}
+		{{ MakeTextInput("data"	,false,objeto.data,'Data da Avaliação','date')}}	
+	{% endif %}	
+	
+	<div class="form-group">
+		<label for="observacao">Observação:</label>
+		<textarea rows="5" name="observacao" id="observacao" class="form-control"></textarea>
+	</div>
+	
+	<div class="panel panel-default" >
+		<div class="panel-heading">
+			<h3 class="panel-title">Risco Coronário</h3>
+		</div>
+		<div class="panel-body">
+			
+			{% if isEditing %}
+				{{ MakeSelectInput("idade"	,true,idadesVetor,objeto.idade,'Idade')}}		
+			{% else %}
+				{{ MakeSelectInput("idade"	,false,idadesVetor,objeto.idade,'Idade')}}		
+			{% endif %}
+			
+			{{ MakeSelectInput("genero"	,false,generosVetor,objeto.genero,'Gênero')}}							
+			
+		
+			{% if isEditing %}
+				{{MakeRadioInput("fumante",false,{1:'Sim',2: 'Não'},objeto.isFumante,"Fumante")}}
+				{{ MakeTextInput("pressao"	,true,objeto.pressao,'Pressão','number')}}			
+				{{MakeRadioInput("historicoCardiaco",false,{1:'Sim',2: 'Não'},objeto.historicoCardiaco,"Histórico Cardiaco")}}							
+			{% else %}
+				{{ MakeTextInput("pressao"	,false,objeto.pressao,'Pressão','number')}}
+				{{MakeRadioInput("historicoCardiaco",true,{1:'Sim',2: 'Não'},objeto.historicoCardiaco,"Histórico Cardiaco")}}			
+				{{MakeRadioInput("fumante",true,{1:'Sim',2: 'Não'},objeto.isFumante,"Fumante")}}
+			{% endif %}			
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Risco de Diabetes</h3>
+		</div>
+		<div class="panel-body">
+			{% if isEditing %}
+				{{ MakeTextInput("glicemia"	,true,objeto.glicemia,'Glicemia','number')}}			
+				{{MakeRadioInput("historicoDiabetes",false,{1:'Sim',2: 'Não'},objeto.historicoDiabetes,"Histórico Diabetes")}}			
+			{% else %}
+				{{ MakeTextInput("glicemia"	,false,objeto.glicemia,'Glicemia','number')}}				
+				{{MakeRadioInput("historicoDiabetes",true,{1:'Sim',2: 'Não'},objeto.historicoDiabetes,"Histórico Diabetes")}}			
+			{% endif %}	
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Composição e Capacidade Neuromotora</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-xs-4">				
+				{% if isEditing %}
+					{{ MakeTextInput("altura"	,true,objeto.getAltura(),'Altura','text')}}					
+					{{ MakeTextInput("peso"			,true,objeto.getPeso(),'Peso','number')}}								
+					{{ MakeTextInput("flexoes"		,true,objeto.flexoes,'Quantidade de Flexões','number')}}					
+					{{ MakeTextInput("abdominais"	,true,objeto.abdominais,'Quantidade de Abdominais','number')}}
+				{% else %}
+					{{ MakeTextInput("altura"	,false,objeto.getAltura(),'Altura','text')}}			
+					{{ MakeTextInput("peso"			,false,objeto.getPeso(),'Peso','number')}}			
+					{{ MakeTextInput("flexoes"		,false,objeto.flexoes,'Quantidade de Flexões','number')}}
+					{{ MakeTextInput("abdominais"	,false,objeto.abdominais,'Quantidade de Abdominais','number')}}								
+				{% endif %}									
+			</div>
+		</div>
+	</div>	
+{% endblock %}
+
+{% block referenciasAdicionais %}
+	{% if isEditing %}
+		<script charset="ISO-8859-1" src="bootstrap/js/avaliacoes_view.js"></script>		
+	{% endif %}	
+<script type="text/javascript">		
+	$('#mainForm').isHappy({
+		fields: {	  
+		  '#idade': {
+			required: true,
+			message: 'O preenchimento da idade é obrigatório.'
+		  },
+		  '#abdominais': {
+			required: true,
+			message: 'O preenchimento da quantidade de abdominais é obrigatório.'
+		  },
+		  '#flexoes': {
+			required: true,
+			message: 'O preenchimento da quantidade de flexões é obrigatório.'			
+		  }
+		},
+		classes : {	  		  
+			field: 'has-warning',
+			message:'help-block'		  
+		}
+	});	
+			
+</script>
+{% endblock %}
